@@ -228,18 +228,17 @@ func (d *DragAndDrop) draggingState(srcX int, srcY int, dragWidget *Container, d
 			droppable := false
 			var element HasWidget
 
-			u.Update(droppable, element, dragData)
-			args := &DragAndDropDroppedEventArgs{
-				Source:  parent,
-				SourceX: srcX,
-				SourceY: srcY,
-				TargetX: x,
-				TargetY: y,
-				Data:    dragData,
-			}
 
 			if !input.KeyPressed(ebiten.KeyEscape) && !d.dndStopped {
 				p := image.Point{x, y}
+				args := &DragAndDropDroppedEventArgs{
+					Source:  parent,
+					SourceX: srcX,
+					SourceY: srcY,
+					TargetX: x,
+					TargetY: y,
+					Data:    dragData,
+				}
 				for _, target := range d.AvailableDropTargets {
 					if p.In(target.GetWidget().Rect) && target.GetWidget().canDrop(args) {
 						droppable = true
