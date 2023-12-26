@@ -240,6 +240,9 @@ func (d *DragAndDrop) draggingState(srcX int, srcY int, dragWidget *Container, d
 					Data:    dragData,
 				}
 				for _, target := range d.AvailableDropTargets {
+					if target.GetWidget().Visibility == Visibility_Hide {
+						continue
+					}
 					if p.In(target.GetWidget().Rect) && target.GetWidget().canDrop(args) {
 						droppable = true
 						element = target
@@ -282,6 +285,9 @@ func (d *DragAndDrop) droppingState(srcX int, srcY int, x int, y int, dragData i
 		p := image.Point{x, y}
 		dropSuccessful := false
 		for _, target := range d.AvailableDropTargets {
+			if target.GetWidget().Visibility == Visibility_Hide {
+				continue
+			}
 			if p.In(target.GetWidget().Rect) && target.GetWidget().canDrop(args) {
 				if target.GetWidget().drop != nil {
 					args.Target = target
